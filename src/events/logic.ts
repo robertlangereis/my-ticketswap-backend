@@ -1,4 +1,4 @@
-import { Game, Card, Symbol, Player } from './entities'
+import { Event, Ticket, Comment } from './entities'
 
 export const calculateWinner = (player: Player, game: Game): Symbol | null => {
   const opponent = game.players.find(item => item.id !== player.id)
