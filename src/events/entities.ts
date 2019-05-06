@@ -23,15 +23,15 @@ export class Event extends BaseEntity {
 
   @IsString()
   @Column()
-  imageUrl: string
+  image_url: string
 
   @IsDate()
   @Column()
-  startDate: string
+  start_date: string
 
   @IsDate()
   @Column()
-  endDate: string
+  end_date: string
 
   @Column({nullable: true})
   stackorder: number
