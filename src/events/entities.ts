@@ -45,7 +45,7 @@ export class Event extends BaseEntity {
   tickets: Ticket[]
   
   @ManyToOne(_ => User, user => user.events)
-  eventauthor: User
+  user: User
 }
 
 @Entity()
@@ -87,7 +87,7 @@ export class Ticket extends BaseEntity {
   comments: Comment[]
 
   @ManyToOne(_ => User, user => user.tickets)
-  ticketauthor: User
+  user: User
   
   @ManyToOne(_ => Event, event => event.tickets)
   event: Event
@@ -113,7 +113,7 @@ export class Comment extends BaseEntity {
   // event: Event
   
   @ManyToOne(_ => User, user => user.comments)
-  commentauthor: User
+  user: User
 }
 
 

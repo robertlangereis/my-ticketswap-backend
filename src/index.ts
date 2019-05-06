@@ -3,7 +3,7 @@ import { Action, BadRequestError, useKoaServer } from 'routing-controllers'
 import setupDb from './db'
 import UserController from './users/controller'
 import LoginController from './logins/controller'
-import GameController from './events/controller'
+import EventController from './events/controller'
 import { verify } from './jwt'
 import User from './users/entity'
 import * as Koa from 'koa'
@@ -22,7 +22,7 @@ useKoaServer(app, {
   controllers: [
     UserController,
     LoginController,
-    GameController
+    EventController
   ],
   authorizationChecker: (action: Action) => {
     const header: string = action.request.headers.authorization
