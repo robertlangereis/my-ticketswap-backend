@@ -12,15 +12,15 @@ type TicketList = Ticket[]
 @JsonController()
 export default class TicketController {
   
-  // GET ALL EVENTS
-  @Get('/events/tickets')
+  // GET ALL TICKETS
+  @Get('/events/:id/tickets')
   async allTickets(): Promise<TicketList> {
     const tickets = await Ticket.find()
     // console.log(tickets)
     return tickets
   }
 
-  // GET EVENT BY ID
+  // GET TICKET BY ID
   @Get('/events/:id/tickets/:id')
   async getTicket(@Param('id') id: any): Promise<Ticket> {
     const ticket = await Ticket.findOneById(id)
@@ -29,7 +29,7 @@ export default class TicketController {
     return ticket
   }
 
-  // CREATE EVENT
+  // CREATE TICKET
   @Authorized()
   @Post('events/tickets')
   @HttpCode(201)
@@ -39,7 +39,7 @@ export default class TicketController {
     await Ticket.create().save()
     
     io.emit('action', {
-      type: 'ADD_EVENT',
+      type: 'ADD_TICKET',
       payload: ticket
     })
 
@@ -47,7 +47,7 @@ export default class TicketController {
   }
 }
 
-  // UPDATE EVENT BY ID
+  // UPDATE TICKET BY ID
   // @Put('/tickets/:id')
   // async updateTicket(
   // @Param('id') id: any,
