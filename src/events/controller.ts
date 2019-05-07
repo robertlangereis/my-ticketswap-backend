@@ -5,7 +5,7 @@ import { Event, Ticket, Comment } from './entities'
 // import {calculateWinner, generateRandomCard, calculatePoints} from './logic'
 import {io} from '../index'
 
-type EventList = { events: Event[] }
+type EventList = Event[]
 
 // this makes sure a class is marked as controller that always returns JSON
 // perfect for our REST API
@@ -16,7 +16,8 @@ export default class EventController {
   @Get('/events')
   async allEvents(): Promise<EventList> {
     const events = await Event.find()
-    return { events }
+    // console.log(events)
+    return events
   }
 
   // GET EVENT BY ID
@@ -24,7 +25,9 @@ export default class EventController {
   async getEvent(@Param('id') id: any): Promise<Event> {
     const event = await Event.findOne(id)
     if (!event) throw new NotFoundError('Cannot find event')
+    console.log(event)
     return event
+
   }
 
   // CREATE EVENT

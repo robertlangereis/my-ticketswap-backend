@@ -3,8 +3,6 @@ import { MinLength, IsString, MaxLength, Length, IsDate } from 'class-validator'
 import User from '../users/entity'
 // import { text } from 'body-parser';
 
-type Status = 'upcoming' | 'finished'
-
 @Entity()
 export class Event extends BaseEntity {
 
@@ -32,12 +30,6 @@ export class Event extends BaseEntity {
   @IsDate()
   @Column()
   end_date: string
-
-  @Column({nullable: true})
-  stackorder: number
-
-  @Column('text', {default: 'upcoming'})
-  status: Status
 
   // this is a relation, read more about them here:
   // http://typeorm.io/#/many-to-one-one-to-many-relations
