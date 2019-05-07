@@ -13,8 +13,10 @@ type TicketList = Ticket[]
 export default class TicketController {
   
   // GET ALL TICKETS
-  @Get('/events/:eventId/tickets')
-  async allTickets(): Promise<TicketList> {
+  @Get('/events/:id/tickets')
+    async allTickets(
+    @Param('id') id: number,
+  ): Promise<TicketList> {
     const tickets = await Ticket.find()
     // console.log(tickets)
     return tickets

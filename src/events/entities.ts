@@ -41,16 +41,13 @@ export class Event extends BaseEntity {
 }
 
 @Entity()
-@Index(['event', 'user'], {unique:false})
+// @Index(['event'], {unique:true})
 //ticket is unique to an event and unique to a user
 export class Ticket extends BaseEntity {
 
   @PrimaryGeneratedColumn()
   ticketId?: number
   
-  @Column('text', { name: 'eventName' })
-  eventName: string
-
   @IsString()
   @Column({nullable: true})
   imageUrl: string
@@ -75,7 +72,10 @@ export class Ticket extends BaseEntity {
   @Column()
   dateAdded: string
 
-  @OneToMany(_ => Comment, comment => comment.ticket, {eager: true})
+  @OneToMany(_ => Comment, comment => comment.ticket, {
+    eager: true, 
+    cascadeUpdate: true
+  })
   comments: Comment[]
 
   @ManyToOne(_ => User, user => user.tickets)
@@ -86,7 +86,6 @@ export class Ticket extends BaseEntity {
 }
 
 @Entity()
-@Index(['ticket'], {unique:false})
 //comment is unique to a ticket
 export class Comment extends BaseEntity {
   
