@@ -13,7 +13,7 @@ type TicketList = Ticket[]
 export default class TicketController {
   
   // GET ALL TICKETS
-  @Get('/events/:id/tickets')
+  @Get('/events/:eventId/tickets')
   async allTickets(): Promise<TicketList> {
     const tickets = await Ticket.find()
     // console.log(tickets)
@@ -21,8 +21,9 @@ export default class TicketController {
   }
 
   // GET TICKET BY ID
-  @Get('/events/:id/tickets/:id')
-  async getTicket(@Param('id') id: any): Promise<Ticket> {
+  @Get('/events/:eventId/tickets/:id')
+  async getTicket(@Param('id') id: number): Promise<Ticket> {
+    console.log("what is the id for @GET", id)
     const ticket = await Ticket.findOneById(id)
     if (!ticket) throw new NotFoundError('Cannot find ticket')
     console.log("ticket in GET server side", ticket)
