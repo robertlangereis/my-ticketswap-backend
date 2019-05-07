@@ -52,7 +52,7 @@ export class Ticket extends BaseEntity {
   eventName: string
 
   @IsString()
-  @Column()
+  @Column({nullable: true})
   imageUrl: string
 
   @Column()
