@@ -8,7 +8,7 @@ import { Ticket, Event, Comment } from '../events/entities';
 export default class User extends BaseEntity {
 
   @PrimaryGeneratedColumn()
-  id?: number
+  userId?: number
 
   @IsString()
   @MinLength(2)

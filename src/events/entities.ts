@@ -7,7 +7,7 @@ import User from '../users/entity'
 export class Event extends BaseEntity {
 
   @PrimaryGeneratedColumn()
-  id?: number
+  eventId?: number
   
   @IsString()
   @MinLength(2)
@@ -41,12 +41,12 @@ export class Event extends BaseEntity {
 }
 
 @Entity()
-@Index(['event', 'user'], {unique:true})
+@Index(['event', 'user'], {unique:false})
 //ticket is unique to an event and unique to a user
 export class Ticket extends BaseEntity {
 
   @PrimaryGeneratedColumn()
-  id?: number
+  ticketId?: number
   
   @Column('text', { name: 'eventName' })
   eventName: string
@@ -86,12 +86,12 @@ export class Ticket extends BaseEntity {
 }
 
 @Entity()
-@Index(['ticket'], {unique:true})
+@Index(['ticket'], {unique:false})
 //comment is unique to a ticket
 export class Comment extends BaseEntity {
   
   @PrimaryGeneratedColumn()
-  id?: number
+  commentId?: number
 
   @IsString()
   @Length(3, 300)
