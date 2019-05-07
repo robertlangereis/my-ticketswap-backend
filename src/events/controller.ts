@@ -23,7 +23,7 @@ export default class EventController {
   // GET EVENT BY ID
   @Get('/events/:id')
   async getEvent(@Param('id') id: any): Promise<Event> {
-    const event = await Event.findOne(id)
+    const event = await Event.findOneById(id)
     if (!event) throw new NotFoundError('Cannot find event')
     console.log(event)
     return event
