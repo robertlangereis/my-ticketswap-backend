@@ -28,9 +28,9 @@ export default class TicketController {
     // console.log("what is the id for @GET", id)
     const ticket = await Ticket.findOneById(id)
     if (!ticket) throw new NotFoundError('Cannot find ticket')
-    // const fraudPercentage = calculateFraud(ticket)
+    const fraudPercentage = calculateFraud(ticket)
     console.log("what does calculateFraud(ticket) return???", calculateFraud(ticket))
-    // if(fraudPercentage){ticket.fraudpercentage=fraudPercentage}
+    if(ticket){ticket.fraudpercentage=fraudPercentage}
     ticket.save()
     return ticket
   }
