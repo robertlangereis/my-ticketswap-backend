@@ -7,7 +7,9 @@ export const calculateFraud = (ticket: Ticket) => {
   const ticketTimeAdded = ticket.timeAdded.toString()
   // ticket.timeAdded is ISO 8601
   console.log('what is spacetime ticketTimeAdded?', ticketTimeAdded)
-  const hrs = ticketTimeAdded.split(' ')[4].split(':')[0]
+  const hrsString = ticketTimeAdded.split(' ')[4].split(':')[0]
+  console.log('what is spacetime hrsString?', hrsString)
+  const hrs = parseInt(hrsString, 10)
   console.log('what is spacetime hrs?', hrs)
   const comments = ticket.comments.length 
   console.log('how many comments does it have?!', comments)
@@ -15,16 +17,15 @@ export const calculateFraud = (ticket: Ticket) => {
     fraudrisk = 5
     console.log('what is fraudrisk now 2.0?!', fraudrisk)
   }
-  else if(ticket){
-  }
-  else if(comments < 3){
+  else if(ticket && comments < 3){
     fraudrisk + 5
   }
-  // else if(ticketTimeAdded < 09 && ticketTimeAdded > 17){
-    // return fraudrisk + 10
-    // }
-    // else if(ticketTimeAdded > 09 && ticketTimeAdded < 17){
-      // return fraudrisk + 10}
+  else if(hrs < 9 && hrs > 17){
+  return fraudrisk + 10
+  }
+  else if(hrs > 9 && hrs < 17){
+  return fraudrisk + 10}
+  
   else if (fraudrisk > 95) {
     return fraudrisk = 95
   }
