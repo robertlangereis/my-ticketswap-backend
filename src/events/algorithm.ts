@@ -11,26 +11,27 @@ export const calculateFraud = (ticket: Ticket) => {
   console.log('what is spacetime hrsString?', hrsString)
   const hrs = parseInt(hrsString, 10)
   console.log('what is spacetime hrs?', hrs)
-  const comments = ticket.comments.length 
-  console.log('how many comments does it have?!', comments)
+  const comments = ticket.comments.length
   if(ticket){
     fraudrisk = 5
+    if(ticket && comments < 3)
     console.log('what is fraudrisk now 2.0?!', fraudrisk)
+    console.log('how many comments does it have?!', comments)
   }
-  else if(ticket && comments < 3){
+  else if(){
     fraudrisk + 5
+    console.log('what is fraudrisk now 3.0?!', fraudrisk)
   }
-  else if(hrs < 9 && hrs > 17){
+  else if(ticket && hrs < 9 && hrs > 17){
   return fraudrisk + 10
   }
-  else if(hrs > 9 && hrs < 17){
+  else if(ticket && hrs > 9 && hrs < 17){
   return fraudrisk + 10}
   
-  else if (fraudrisk > 95) {
+  else if (ticket && fraudrisk > 95) {
     return fraudrisk = 95
   }
-    console.log('what is fraudrisk now 3.0?!', fraudrisk)
-    // ticket.fraudpercentage.save()
+  // ticket.fraudpercentage.save()
     ticket.save()
     return fraudrisk
     // console.log('Ticket zou vijf punten moeten hebben:', ticket)
