@@ -3,35 +3,50 @@ import { Ticket } from './entities'
 
 export const calculateFraud = (ticket: Ticket) => {
   let fraudrisk = ticket.fraudpercentage
-  console.log('what is fraudrisk now 1.0?!', fraudrisk)
   const ticketTimeAdded = ticket.timeAdded.toString()
-  const hrsString = ticketTimeAdded.split(' ')[4].split(':')[0]
-  const hrs = parseInt(hrsString, 10)
-  const comments = ticket.comments.length
   // ticket.timeAdded is ISO 8601
-  // console.log('what is spacetime ticketTimeAdded?', ticketTimeAdded)
-  // console.log('what is spacetime hrsString?', hrsString)
-  // console.log('what is spacetime hrs?', hrs)
+  console.log('what is spacetime ticketTimeAdded?', ticketTimeAdded)
+  const hrsString = ticketTimeAdded.split(' ')[4].split(':')[0]
+  console.log('what is spacetime hrsString?', hrsString)
+  const hrs = parseInt(hrsString, 10)
+  console.log('what is spacetime hrs?', hrs)
+  // const comments = ticket.comments.length
+  const comments = 4
+  if(ticket) fraudrisk = 5
+  if (ticket){
+    console.log('what is fraudrisk now 1.0?!', fraudrisk)
+    if (hrs < 9 || hrs > 17){
+      fraudrisk = fraudrisk + 10
+      console.log('what is fraudrisk now 2.0 - TIME?!', fraudrisk)
+      ticket.save()
+    }
+    else if (hrs > 9 || hrs < 17){
+      fraudrisk = fraudrisk -30
+      ticket.save()
+    }
+  }
   if(ticket){
-    ticket ? fraudrisk = 5: null
-    ticket && comments < 3 ? fraudrisk + 5 : null
-    ticket && hrs < 9 && hrs > 17 ? fraudrisk + 6 : null
-    ticket && hrs > 9 && hrs < 17 ? fraudrisk - 14 : null
-    console.log('what is fraudrisk now 2.0?!', fraudrisk)
-    console.log('how many comments does it have?!', comments)
-    console.log('what is fraudrisk now 3.0?!', fraudrisk)
+    if(comments > 3){
+      fraudrisk = fraudrisk + 5
+      console.log('babylon?!', fraudrisk)
+      ticket.save()
+    }
   }
-  else if (ticket && fraudrisk > 95){
-    return fraudrisk = 95
+  if(ticket){
+    if (fraudrisk > 95) {
+      fraudrisk = 95
+      console.log('moet niet vuren!', fraudrisk)
+      ticket.save()
+    }
   }
-  ticket.save()
-  return fraudrisk
+    ticket.save()
+    console.log('what is FINAL fraudrisk?!', fraudrisk)
+    console.log('what is FINAL ticket now 3.0?!', ticket)
+    return fraudrisk
+  }
     
-  
   // ticket.fraudpercentage.save()
-    
     // console.log('Ticket zou vijf punten moeten hebben:', ticket)
-  }
   // player.score = 20
   // let isValid: boolean = true
   // console.log("stack test calculatePoints", game.stack)
