@@ -61,7 +61,7 @@ export class Ticket extends BaseEntity {
   ticketDescription: string
 
   // implementation of game-logic. But, instead of game-logic we have the calculation of the alogorithm. So, using the game-logic as a base to calculate the fraud percentage?....
-  @Column()
+  @Column({nullable: true})
   fraudpercentage: number
 
   //sketchy, weet niet of dit werkt maar zou wel makkelijk zijn: https://github.com/typeorm/typeorm/issues/877
@@ -97,8 +97,8 @@ export class Comment extends BaseEntity {
   @Column('text')
   text: string
 
-  @ManyToOne(_ => Ticket, ticket => ticket.comments, {nullable: true})
-  ticket: Ticket | null
+  @ManyToOne(_ => Ticket, ticket => ticket.comments)
+  ticket: Ticket
 
   // @ManyToOne(_ => Event, event => event.stack)
   // event: Event

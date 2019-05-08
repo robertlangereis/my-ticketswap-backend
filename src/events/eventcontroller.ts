@@ -1,8 +1,8 @@
 import { 
   JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, Put, Body, Patch} from 'routing-controllers'
 import User from '../users/entity'
-import { Event } from './entities'
-// import {calculateWinner, generateRandomCard, calculatePoints} from './logic'
+import { Event, Ticket } from './entities'
+import {calculateFraud} from './algorithm'
 import {io} from '../index'
 
 type EventList = Event[]
@@ -25,7 +25,10 @@ export default class EventController {
   async getEvent(@Param('id') id: any): Promise<Event> {
     const event = await Event.findOneById(id)
     if (!event) throw new NotFoundError('Cannot find event')
-    // console.log(event)
+    const ticket = await Ticket.findOneById(id)
+    ticket && calculateFraud(ticket)
+    console.log("ticketidentification 3.0", ticket)
+    ticket && await ticket.save()
     return event
   }
 
