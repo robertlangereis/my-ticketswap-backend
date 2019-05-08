@@ -4,13 +4,18 @@ import { Ticket } from './entities'
 export const calculateFraud = (ticket: Ticket) => {
   let fraudrisk = ticket.fraudpercentage
   console.log('what is fraudrisk now 1.0?!', fraudrisk)
-  const ticketTimeAdded = ticket.timeAdded
-  console.log('how many comments does it have?!', comments)
+  const ticketTimeAdded = ticket.timeAdded.toString()
+  // ticket.timeAdded is ISO 8601
+  console.log('what is spacetime ticketTimeAdded?', ticketTimeAdded)
+  const hrs = ticketTimeAdded.split(' ')[4].split(':')[0]
+  console.log('what is spacetime hrs?', hrs)
   const comments = ticket.comments.length 
   console.log('how many comments does it have?!', comments)
   if(ticket){
     fraudrisk = 5
     console.log('what is fraudrisk now 2.0?!', fraudrisk)
+  }
+  else if(ticket){
   }
   else if(comments < 3){
     fraudrisk + 5
@@ -27,7 +32,7 @@ export const calculateFraud = (ticket: Ticket) => {
     // ticket.fraudpercentage.save()
     ticket.save()
     return fraudrisk
-    console.log('Ticket zou vijf punten moeten hebben:', ticket)
+    // console.log('Ticket zou vijf punten moeten hebben:', ticket)
   }
   // player.score = 20
   // let isValid: boolean = true
