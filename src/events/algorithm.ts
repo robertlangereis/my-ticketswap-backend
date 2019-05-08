@@ -2,26 +2,29 @@ import { Ticket } from './entities'
 // import User from '../users/entity'
 
 export const calculateFraud = (ticket: Ticket) => {
-  let fraudrisk = ticket.fraudpercentage
   // const ticketTimeAdded = ticket.timeAdded.getHours()
+  console.log('Ticket zou nul punten moeten hebben:', ticket)
+  ticket.fraudpercentage + 5
+  ticket.save()
+  console.log('fraudrisk vijf punten moeten hebben:', ticket)
   const comments = ticket.comments.length 
-  console.log('how many comments does it have?!', comments)
+  // console.log('how many comments does it have?!', comments)
     if(ticket){
-     fraudrisk = 5
-    }
-    else if(comments < 3){
-    return fraudrisk + 5
+    if(comments < 3){
+    ticket.fraudpercentage + 5
     }
     // else if(ticketTimeAdded < 09 && ticketTimeAdded > 17){
     // return fraudrisk + 10
     // }
     // else if(ticketTimeAdded > 09 && ticketTimeAdded < 17){
     // return fraudrisk + 10}
-    else if (fraudrisk > 95) {
-      return fraudrisk = 95
+    else if (ticket.fraudpercentage > 95) {
+      ticket.fraudpercentage = 95
     }
-    console.log('Ticket zou vijf punten moeten hebben:', ticket)
+    else ticket.fraudpercentage = 5
+    }
     ticket.save()
+    // return ticket
   }
   // player.score = 20
   // let isValid: boolean = true
