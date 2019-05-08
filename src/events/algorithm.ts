@@ -4,7 +4,8 @@ import { Ticket } from './entities'
 export const calculateFraud = (ticket: Ticket) => {
   let fraudrisk = ticket.fraudpercentage
   console.log('what is fraudrisk now 1.0?!', fraudrisk)
-  // const ticketTimeAdded = ticket.timeAdded.getHours()
+  const ticketTimeAdded = ticket.timeAdded
+  console.log('how many comments does it have?!', comments)
   const comments = ticket.comments.length 
   console.log('how many comments does it have?!', comments)
   if(ticket){
