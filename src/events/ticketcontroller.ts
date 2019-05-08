@@ -1,32 +1,37 @@
 import { 
   JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, Put, Body, Patch} from 'routing-controllers'
-import User from '../users/entity'
+// import User from '../users/entity'
 import { Ticket } from './entities'
-// import {calculateWinner, generateRandomCard, calculatePoints} from './logic'
+import {calculateFraud} from './algorithm'
 import {io} from '../index'
 
-type TicketList = Ticket[]
+// type TicketList = Ticket[]
 
 // this makes sure a class is marked as controller that always returns JSON
 // perfect for our REST API
 @JsonController()
 export default class TicketController {
   
-  // GET ALL TICKETS
-  @Get('/events/:eventId/tickets')
-  async allTickets(): Promise<TicketList> {
-    const tickets = await Ticket.find()
-    // console.log(tickets)
-    return tickets
-  }
+  // // GET ALL TICKETS
+  // @Get('/events/:id/tickets')
+  //   async allTickets(
+  //   @Param('id') id: number,
+  // ): Promise<TicketList> {
+  //   const tickets = await Ticket.find()
+  //   // console.log(tickets)
+  //   return tickets
+  // }
 
   // GET TICKET BY ID
   @Get('/events/:eventId/tickets/:id')
   async getTicket(@Param('id') id: number): Promise<Ticket> {
-    console.log("what is the id for @GET", id)
+    // console.log("what is the id for @GET", id)
     const ticket = await Ticket.findOneById(id)
     if (!ticket) throw new NotFoundError('Cannot find ticket')
-    console.log("ticket in GET server side", ticket)
+    const fraudPercentage = calculateFraud(ticket)
+    console.log("what does calculateFraud(ticket) return???", calculateFraud(ticket))
+    if(ticket){ticket.fraudpercentage=fraudPercentage}
+    ticket.save()
     return ticket
   }
 

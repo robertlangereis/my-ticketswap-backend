@@ -41,16 +41,13 @@ export class Event extends BaseEntity {
 }
 
 @Entity()
-@Index(['event', 'user'], {unique:false})
+// @Index(['event'], {unique:true})
 //ticket is unique to an event and unique to a user
 export class Ticket extends BaseEntity {
 
   @PrimaryGeneratedColumn()
   ticketId?: number
   
-  @Column('text', { name: 'eventName' })
-  eventName: string
-
   @IsString()
   @Column({nullable: true})
   imageUrl: string
@@ -64,7 +61,7 @@ export class Ticket extends BaseEntity {
   ticketDescription: string
 
   // implementation of game-logic. But, instead of game-logic we have the calculation of the alogorithm. So, using the game-logic as a base to calculate the fraud percentage?....
-  @Column()
+  @Column({nullable: true})
   fraudpercentage: number
 
   //sketchy, weet niet of dit werkt maar zou wel makkelijk zijn: https://github.com/typeorm/typeorm/issues/877
@@ -75,7 +72,10 @@ export class Ticket extends BaseEntity {
   @Column()
   dateAdded: string
 
-  @OneToMany(_ => Comment, comment => comment.ticket, {eager: true})
+  @OneToMany(_ => Comment, comment => comment.ticket, {
+    eager: true, 
+    cascadeUpdate: true
+  })
   comments: Comment[]
 
   @ManyToOne(_ => User, user => user.tickets)
@@ -86,7 +86,6 @@ export class Ticket extends BaseEntity {
 }
 
 @Entity()
-@Index(['ticket'], {unique:false})
 //comment is unique to a ticket
 export class Comment extends BaseEntity {
   
@@ -98,8 +97,8 @@ export class Comment extends BaseEntity {
   @Column('text')
   text: string
 
-  @ManyToOne(_ => Ticket, ticket => ticket.comments, {nullable: true})
-  ticket: Ticket | null
+  @ManyToOne(_ => Ticket, ticket => ticket.comments)
+  ticket: Ticket
 
   // @ManyToOne(_ => Event, event => event.stack)
   // event: Event
