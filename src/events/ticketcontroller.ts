@@ -39,19 +39,12 @@ export default class TicketController {
     const authorId = await User.find({where: { ticket: ticketid }})
     
     const allTickets = await Ticket.find()
-    const allTicketPriceAvg = allTickets.reduce((a,b) => a + b.price, 0) / allTickets.length
-    console.log(allTicketPriceAvg, "allTicketPriceAvg")
-    console.log(ticket.price, "ticket.price")
-    // const percPrice = (allTicketPriceAvg - ticket.price) / ticket.price
-    const percPrice = (((allTicketPriceAvg - 400) / 400)*100).toFixed(0)
     
-    const percPriceNum = Number(percPrice)
-    console.log(percPriceNum, "percPriceNum")
-    if(percPriceNum < 0) 
-
     console.log("authorId???", authorId)
-    const fraudPercentage = calculateFraud(ticket, comments)
-    console.log("what does calculateFraud(ticket) return???", calculateFraud(ticket, comments))
+    const fraudPercentage = calculateFraud(ticket, comments, allTickets)
+    console.log("what does calculateFraud(ticket) return???", calculateFraud(ticket, comments, allTickets))
+
+    
     // Run through the comments, check for matches with TiketID
     // deze werkt wel ==> const comments = await Comment.count({ text: "Joejoe" })
     // ticket && console.log(comments, "benieuwd")
