@@ -29,9 +29,9 @@ export default class TicketController {
     // console.log("what is the id for @GET", id)
     const ticket = await Ticket.findOneById(ticketid)
     if (!ticket) throw new NotFoundError('Cannot find ticket')
-    
-    
     const comments = await Comment.count({where: { ticket: ticketid }})
+    
+    
     
     const ticketnumber = ticket.ticketId
     console.log(ticketnumber, "ticketId nummer")
@@ -42,8 +42,12 @@ export default class TicketController {
     const allTicketPriceAvg = allTickets.reduce((a,b) => a + b.price, 0) / allTickets.length
     console.log(allTicketPriceAvg, "allTicketPriceAvg")
     console.log(ticket.price, "ticket.price")
-    const percPrice = (allTicketPriceAvg - ticket.price) / ticket.price
-    console.log(percPrice, "percPrice")
+    // const percPrice = (allTicketPriceAvg - ticket.price) / ticket.price
+    const percPrice = (((allTicketPriceAvg - 400) / 400)*100).toFixed(0)
+    
+    const percPriceNum = Number(percPrice)
+    console.log(percPriceNum, "percPriceNum")
+    if(percPriceNum < 0) 
 
     console.log("authorId???", authorId)
     const fraudPercentage = calculateFraud(ticket, comments)
