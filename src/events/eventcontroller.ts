@@ -68,7 +68,7 @@ export default class EventController {
 }
 
 
-// OLD VERSION OF POST
+//  OLD VERSION OF POST 
 //   @Authorized()
 //   @Post('/events')
 //   @HttpCode(201)
