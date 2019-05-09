@@ -1,5 +1,5 @@
 {
-  "name": "game-starter-b15-server",
+  "name": "ticketswap-server",
   "version": "1.0.0",
   "engine": "11",
   "main": "target/index.js",

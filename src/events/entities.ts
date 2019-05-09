@@ -99,9 +99,6 @@ export class Comment extends BaseEntity {
 
   @ManyToOne(_ => Ticket, ticket => ticket.comments,{ eager: true, onDelete: 'CASCADE'})
   ticket: Ticket
-
-  // @ManyToOne(_ => Event, event => event.stack)
-  // event: Event
   
   @ManyToOne(_ => User, user => user.comments)
   user: User

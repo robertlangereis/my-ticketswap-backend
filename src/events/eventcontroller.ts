@@ -13,10 +13,12 @@ type EventList = Event[]
 export default class EventController {
   
   // GET ALL EVENTS
+  // @Authorized()
   @Get('/events')
   async allEvents(): Promise<EventList> {
     const events = await Event.find()
-    console.log(events, "how do events lookyliky")
+    // if (!event) throw new NotFoundError('Cannot find event')
+    // console.log(events, "how do events lookyliky")
     return events
   }
 
@@ -50,19 +52,42 @@ export default class EventController {
   @Authorized()
   @Post('/events')
   @HttpCode(201)
-  async createGame(
-    @Body() event: Event
-  ) {
-    await Event.create().save()
-    
+  async createEvent(
+    @Body() data: Event
+  ): Promise<Event> {
+    console.log("incoming eventcreated", data)
+    const entity = await Event.create(data).save()
+    const newEvent = await Event.findOneById(entity.eventId)
+
     io.emit('action', {
       type: 'ADD_EVENT',
-      payload: event
+      payload: newEvent
     })
-
-    return event  
+    return newEvent!  
   }
 }
+
+
+//  OLD VERSION OF POST 
+//   @Authorized()
+//   @Post('/events')
+//   @HttpCode(201)
+//   async createEvent(
+//     @Body() event: Event
+//   ) {
+//     if (!event) throw new NotFoundError('Cannot find event')
+//     console.log("incoming eventcreated")
+//     await Event.create().save()
+    
+//     io.emit('action', {
+//       type: 'ADD_EVENT',
+//       payload: event
+//     })
+
+//     return event  
+//   }
+// }
+
 
   // UPDATE EVENT BY ID
   // @Put('/events/:id')
