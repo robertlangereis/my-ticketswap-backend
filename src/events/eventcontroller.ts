@@ -16,7 +16,7 @@ export default class EventController {
   @Get('/events')
   async allEvents(): Promise<EventList> {
     const events = await Event.find()
-    // console.log(events)
+    console.log(events, "how do events lookyliky")
     return events
   }
 
@@ -27,6 +27,17 @@ export default class EventController {
     if (!event) throw new NotFoundError('Cannot find event')
     const ticket = await Ticket.findOneById(id)
     ticket && calculateFraud(ticket)
+  // Run through the comments, check for matches with TiketID
+    const comments = await Comments.findOneById(id)
+    comments && calculateComments(comments)
+  // comments returns an array of objects, so it can be mapped
+      
+  // Run through all tickets, check for the average price. Adjust risk accordingly
+      // const tickets = await Ticket.find()
+  // tickets returns an array of objects, so it can be mapped
+    //
+
+    // const events = await Event.find()
     console.log("ticketidentification 3.0", ticket)
     ticket && await ticket.save()
     return event

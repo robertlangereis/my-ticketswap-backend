@@ -21,7 +21,7 @@ export const calculateFraud = (ticket: Ticket) => {
       ticket.save()
     }
     else if (hrs > 9 || hrs < 17){
-      fraudrisk = fraudrisk -30
+      fraudrisk = fraudrisk -10
       ticket.save()
     }
   }
@@ -44,64 +44,4 @@ export const calculateFraud = (ticket: Ticket) => {
     console.log('what is FINAL ticket now 3.0?!', ticket)
     return fraudrisk
   }
-    
-  // ticket.fraudpercentage.save()
-    // console.log('Ticket zou vijf punten moeten hebben:', ticket)
-  // player.score = 20
-  // let isValid: boolean = true
-  // console.log("stack test calculatePoints", game.stack)
-
-  // if (!gameStack && !opponent) return null
-  // gameStack.map( card => {
-  //   console.log("points test: ", player.score, opponent && opponent.score)
-  //   console.log('card test:', card)
-  //   if (!isValid) {
-  //     return isValid = true
-  //   } else if (opponent) {
-  //     console.log('card.color test:', card.color)
-  //     switch (card.color) {
-  //       case "red":
-  //         console.log('red test!')
-  //         if (card.symbol === player.symbol) {
-  //           opponent.score = opponent.score - card.points
-  //         } else {
-  //           player.score = player.score - card.points
-  //         }
-  //         break;
-        
-  //       case "green":
-  //         console.log('green test!')
-  //         if (card.symbol === player.symbol) {
-  //           player.score = player.score + card.points
-  //         }
-  //         else {
-  //           opponent.score = opponent.score + card.points
-  //         }
-  //         break;
-        
-  //       case "blue":
-  //         isValid = false
-  //         break;
-        
-  //       case "black":
-  //         if (card.symbol === player.symbol) {
-  //           opponent.score = (opponent.score = Math.floor(opponent.score / 2))
-  //         } else {
-  //           player.score = player.score = Math.floor(player.score / 2)
-  //         }
-  //         break;
-        
-  //       case "purple":
-  //         if (card.symbol === player.symbol) {
-  //           player.score = player.score = Math.floor(player.score * 2)
-  //         }  else {
-  //           opponent.score = (opponent.score = Math.floor(opponent.score * 2))
-  //         }
-  //         break;
-  //     }
-      
-  //   }
-  // })
-  // player.save()
-  // opponent && opponent.save()
-// }
+  
