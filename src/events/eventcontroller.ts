@@ -16,8 +16,8 @@ export default class EventController {
   // @Authorized()
   @Get('/events')
   async allEvents(): Promise<EventList> {
-    
     const events = await Event.find()
+    // if (!event) throw new NotFoundError('Cannot find event')
     // console.log(events, "how do events lookyliky")
     return events
   }
@@ -53,18 +53,50 @@ export default class EventController {
   @Post('/events')
   @HttpCode(201)
   async createEvent(
+    @CurrentUser() user: User, 
     @Body() event: Event
-  ) {
+  ): Promise<Event> {
+    console.log("incoming eventcreated")
+    if (!event) throw new Notification('Cannot find event')
     await Event.create().save()
     
     io.emit('action', {
       type: 'ADD_EVENT',
       payload: event
     })
-
     return event  
   }
 }
+
+
+
+
+
+
+
+
+
+
+// OLD VERSION OF POST
+//   @Authorized()
+//   @Post('/events')
+//   @HttpCode(201)
+//   async createEvent(
+//     @Body() event: Event
+//   ) {
+//     if (!event) throw new NotFoundError('Cannot find event')
+//     console.log("incoming eventcreated")
+//     await Event.create().save()
+    
+//     io.emit('action', {
+//       type: 'ADD_EVENT',
+//       payload: event
+//     })
+
+//     return event  
+//   }
+// }
+
 
   // UPDATE EVENT BY ID
   // @Put('/events/:id')
