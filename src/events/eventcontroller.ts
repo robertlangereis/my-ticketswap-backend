@@ -29,8 +29,9 @@ export default class EventController {
     ticket && calculateFraud(ticket)
   // Run through the comments, check for matches with TiketID
   // deze werkt wel ==> const comments = await Comment.count({ text: "Joejoe" })
-    const comments = await Comment.findAndCount({where: { ticket: 5 }})
-    console.log(comments, "ali ticket_ticket_id")
+    const comments = await Comment.findAndCount({where: { ticket: ticket!.ticketId }})
+    ticket && console.log(ticket.ticketId, "ticketId nummer")
+    ticket && console.log(comments, "benieuwd")
     // comments.map(comment => comment.ticketId === ticket.id)
     // comments && calculateCommentsFraud(comments, ticket)
   // comments returns an array of objects, so it can be mapped
