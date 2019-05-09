@@ -44,4 +44,3 @@ export const calculateFraud = (ticket: Ticket) => {
     console.log('what is FINAL ticket now 3.0?!', ticket)
     return fraudrisk
   }
-  

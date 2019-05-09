@@ -1,8 +1,8 @@
 import { 
   JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, Put, Body, Patch} from 'routing-controllers'
 import User from '../users/entity'
-import { Event, Ticket } from './entities'
-import {calculateFraud} from './algorithm'
+import { Event, Ticket, Comment } from './entities'
+import {calculateFraud, calculateCommentsFraud} from './algorithm'
 import {io} from '../index'
 
 type EventList = Event[]
@@ -28,15 +28,17 @@ export default class EventController {
     const ticket = await Ticket.findOneById(id)
     ticket && calculateFraud(ticket)
   // Run through the comments, check for matches with TiketID
-    const comments = await Comments.findOneById(id)
-    comments && calculateComments(comments)
+  // deze werkt wel ==> const comments = await Comment.count({ text: "Joejoe" })
+    const comments = await Comment.findAndCount({where: { ticket: 5 }})
+    console.log(comments, "ali ticket_ticket_id")
+    // comments.map(comment => comment.ticketId === ticket.id)
+    // comments && calculateCommentsFraud(comments, ticket)
   // comments returns an array of objects, so it can be mapped
       
   // Run through all tickets, check for the average price. Adjust risk accordingly
       // const tickets = await Ticket.find()
   // tickets returns an array of objects, so it can be mapped
     //
-
     // const events = await Event.find()
     console.log("ticketidentification 3.0", ticket)
     ticket && await ticket.save()

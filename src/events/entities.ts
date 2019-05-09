@@ -73,7 +73,7 @@ export class Ticket extends BaseEntity {
   dateAdded: string
 
   @OneToMany(_ => Comment, comment => comment.ticket, {
-    eager: true, 
+    // eager: true, 
     cascadeUpdate: true
   })
   comments: Comment[]
@@ -97,7 +97,7 @@ export class Comment extends BaseEntity {
   @Column('text')
   text: string
 
-  @ManyToOne(_ => Ticket, ticket => ticket.comments)
+  @ManyToOne(_ => Ticket, ticket => ticket.comments,{ eager: true, })
   ticket: Ticket
 
   // @ManyToOne(_ => Event, event => event.stack)
