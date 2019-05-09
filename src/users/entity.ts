@@ -25,7 +25,7 @@ export default class User extends BaseEntity {
   email: string
 
   @IsString()
-  @MinLength(8)
+  @MinLength(3)
   @Column('text')
   @Exclude({ toPlainOnly: true })
   password: string
