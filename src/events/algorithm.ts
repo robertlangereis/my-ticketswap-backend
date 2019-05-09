@@ -27,26 +27,26 @@ export const calculateFraud = (ticket: Ticket, comments: number, allTickets:Tick
   if (ticket){
     if (hrs < 9 || hrs > 17){
       fraudrisk = fraudrisk + 10
-      console.log(fraudrisk, "YOUNOWORK")
+      console.log(fraudrisk, "YOUNOWORK 77")
       ticket.save()
     }
     else if (hrs > 9 || hrs < 17){
       fraudrisk = fraudrisk - 10
-      console.log(fraudrisk, "YOUDOWORK 4444")
+      console.log(fraudrisk, "YOUDOWORK 2 77 ")
     }
   }
   if (ticket){
     if (userTicketCount === 1){
       fraudrisk = fraudrisk + 10
-      console.log(fraudrisk, "fraudrisk afterticket")
+      console.log(fraudrisk, "fraudrisk afterticket 77")
     }
   }
   if(ticket){
-    if(percPriceNum > 0){
+    if(percPriceNum < 0){
       fraudrisk = fraudrisk - percPriceNum
-      console.log(fraudrisk, "Hoeveel is nu daaan")
+      console.log(fraudrisk, "Hoeveel is nu daaan 77 ")
     }
-    else if (percPriceNum < 0){
+    else if (percPriceNum > 0){
       fraudrisk = fraudrisk + percPriceNum
     }
   }
