@@ -1,7 +1,7 @@
 import { Ticket } from './entities'
 // import User from '../users/entity'
 
-export const calculateFraud = (ticket: Ticket) => {
+export const calculateFraud = (ticket: Ticket, comments: number) => {
   let fraudrisk = ticket.fraudpercentage
   const ticketTimeAdded = ticket.timeAdded.toString()
   // ticket.timeAdded is ISO 8601
@@ -11,7 +11,6 @@ export const calculateFraud = (ticket: Ticket) => {
   const hrs = parseInt(hrsString, 10)
   console.log('what is spacetime hrs?', hrs)
   // const comments = ticket.comments.length
-  const comments = 4
   if(ticket) fraudrisk = 5
   if (ticket){
     console.log('what is fraudrisk now 1.0?!', fraudrisk)

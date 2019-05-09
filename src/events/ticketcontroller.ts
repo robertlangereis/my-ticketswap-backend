@@ -2,6 +2,7 @@ import {
   JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, Put, Body, Patch} from 'routing-controllers'
 // import User from '../users/entity'
 import { Ticket, Comment } from './entities'
+import User from '../users/entity'
 import {calculateFraud} from './algorithm'
 import {io} from '../index'
 
@@ -28,16 +29,29 @@ export default class TicketController {
     // console.log("what is the id for @GET", id)
     const ticket = await Ticket.findOneById(ticketid)
     if (!ticket) throw new NotFoundError('Cannot find ticket')
-    console.log(ticket.ticketId, "ticketId nummer")
-    const fraudPercentage = calculateFraud(ticket)
-    console.log("what does calculateFraud(ticket) return???", calculateFraud(ticket))
-    if(ticket){ticket.fraudpercentage=fraudPercentage}
     
-    ticket && calculateFraud(ticket)
-  // Run through the comments, check for matches with TiketID
-  // deze werkt wel ==> const comments = await Comment.count({ text: "Joejoe" })
-    const comments = await Comment.findAndCount({where: { ticket: ticket!.ticketId }})
-    ticket && console.log(comments, "benieuwd")
+    
+    const comments = await Comment.count({where: { ticket: ticketid }})
+    
+    const ticketnumber = ticket.ticketId
+    console.log(ticketnumber, "ticketId nummer")
+    
+    const authorId = await User.find({where: { ticket: ticketid }})
+    
+    const allTickets = await Ticket.find()
+    const allTicketPriceAvg = allTickets.reduce((a,b) => a + b.price, 0) / allTickets.length
+    console.log(allTicketPriceAvg, "allTicketPriceAvg")
+    console.log(ticket.price, "ticket.price")
+    const percPrice = (allTicketPriceAvg - ticket.price) / ticket.price
+    console.log(percPrice, "percPrice")
+
+    console.log("authorId???", authorId)
+    const fraudPercentage = calculateFraud(ticket, comments)
+    console.log("what does calculateFraud(ticket) return???", calculateFraud(ticket, comments))
+    // Run through the comments, check for matches with TiketID
+    // deze werkt wel ==> const comments = await Comment.count({ text: "Joejoe" })
+    // ticket && console.log(comments, "benieuwd")
+    if(ticket){ticket.fraudpercentage=fraudPercentage}
     // comments.map(comment => comment.ticketId === ticket.id)
     // comments && calculateCommentsFraud(comments, ticket)
   // comments returns an array of objects, so it can be mapped
