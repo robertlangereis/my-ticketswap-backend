@@ -30,21 +30,26 @@ export default class TicketController {
     const ticket = await Ticket.findOneById(ticketid)
     if (!ticket) throw new NotFoundError('Cannot find ticket')
     const comments = await Comment.count({where: { ticket: ticketid }})
+    // console.log("commentsId???", comments)
+    
+    const authorId = await Ticket.find({where: { ticketId: ticketid }, relations: ["user"] })
+    // const authorId2 = await User.find({where: { ticket: ticketid }, relations: ["tickets"] })
+    const authorIdNum = authorId.map(ticket => ticket.user.userId)[0]
+    console.log("authorId 222 ???", authorIdNum)
+    const userTicketCount = await Ticket.count({where: { user: authorIdNum }})
+    console.log("ISTHIS 3333???!!!", userTicketCount)
     
     
     
-    const ticketnumber = ticket.ticketId
-    console.log(ticketnumber, "ticketId nummer")
-    
-    const authorId = await User.find({where: { ticket: ticketid }})
-    
+    // const ticketnumber = ticket.ticketId
+    // console.log(ticketnumber, "ticketId nummer")
+  
     const allTickets = await Ticket.find()
     
-    console.log("authorId???", authorId)
     const fraudPercentage = calculateFraud(ticket, comments, allTickets)
     console.log("what does calculateFraud(ticket) return???", calculateFraud(ticket, comments, allTickets))
 
-    
+
     // Run through the comments, check for matches with TiketID
     // deze werkt wel ==> const comments = await Comment.count({ text: "Joejoe" })
     // ticket && console.log(comments, "benieuwd")
