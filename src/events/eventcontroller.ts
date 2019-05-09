@@ -13,8 +13,10 @@ type EventList = Event[]
 export default class EventController {
   
   // GET ALL EVENTS
+  // @Authorized()
   @Get('/events')
   async allEvents(): Promise<EventList> {
+    
     const events = await Event.find()
     // console.log(events, "how do events lookyliky")
     return events
@@ -50,7 +52,7 @@ export default class EventController {
   @Authorized()
   @Post('/events')
   @HttpCode(201)
-  async createGame(
+  async createEvent(
     @Body() event: Event
   ) {
     await Event.create().save()
