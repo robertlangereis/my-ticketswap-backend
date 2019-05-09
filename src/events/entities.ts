@@ -97,7 +97,7 @@ export class Comment extends BaseEntity {
   @Column('text')
   text: string
 
-  @ManyToOne(_ => Ticket, ticket => ticket.comments,{ eager: true, })
+  @ManyToOne(_ => Ticket, ticket => ticket.comments,{ eager: true, onDelete: 'CASCADE'})
   ticket: Ticket
 
   // @ManyToOne(_ => Event, event => event.stack)

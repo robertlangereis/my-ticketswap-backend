@@ -1,11 +1,10 @@
 import { Ticket } from './entities'
 // import User from '../users/entity'
 
-export const calculateFraud = (ticket: Ticket, comments: number, allTickets:Ticket[]) => {
+export const calculateFraud = (ticket: Ticket, comments: number, allTickets:Ticket[], userTicketCount: number) => {
   let fraudrisk = ticket.fraudpercentage
   const ticketTimeAdded = ticket.timeAdded.toString()
   // ticket.timeAdded is ISO 8601
-
 
   const allTicketPriceAvg = allTickets.reduce((a,b) => a + b.price, 0) / allTickets.length
   // console.log(allTicketPriceAvg, "allTicketPriceAvg")
@@ -21,20 +20,31 @@ export const calculateFraud = (ticket: Ticket, comments: number, allTickets:Tick
   const hrs = parseInt(hrsString, 10)
   // console.log('what is spacetime hrs?', hrs)
   // const comments = ticket.comments.length
+  console.log(userTicketCount, "userTicketCount")
   
   
   if(ticket) fraudrisk = 5
   if (ticket){
     if (hrs < 9 || hrs > 17){
       fraudrisk = fraudrisk + 10
+      console.log(fraudrisk, "YOUNOWORK")
+      ticket.save()
     }
     else if (hrs > 9 || hrs < 17){
-      fraudrisk = fraudrisk -10
+      fraudrisk = fraudrisk - 10
+      console.log(fraudrisk, "YOUDOWORK 4444")
+    }
+  }
+  if (ticket){
+    if (userTicketCount === 1){
+      fraudrisk = fraudrisk + 10
+      console.log(fraudrisk, "fraudrisk afterticket")
     }
   }
   if(ticket){
     if(percPriceNum > 0){
       fraudrisk = fraudrisk - percPriceNum
+      console.log(fraudrisk, "Hoeveel is nu daaan")
     }
     else if (percPriceNum < 0){
       fraudrisk = fraudrisk + percPriceNum
@@ -56,7 +66,5 @@ export const calculateFraud = (ticket: Ticket, comments: number, allTickets:Tick
     }
   }
     ticket.save()
-    console.log('what is FINAL fraudrisk?!', fraudrisk)
-    console.log('what is FINAL ticket now 3.0?!', ticket)
     return fraudrisk
   }

@@ -33,11 +33,10 @@ export default class TicketController {
     // console.log("commentsId???", comments)
     
     const authorId = await Ticket.find({where: { ticketId: ticketid }, relations: ["user"] })
-    // const authorId2 = await User.find({where: { ticket: ticketid }, relations: ["tickets"] })
     const authorIdNum = authorId.map(ticket => ticket.user.userId)[0]
-    console.log("authorId 222 ???", authorIdNum)
     const userTicketCount = await Ticket.count({where: { user: authorIdNum }})
     console.log("ISTHIS 3333???!!!", userTicketCount)
+    // console.log("authorId 222 ???", authorIdNum)
     
     
     
@@ -46,8 +45,8 @@ export default class TicketController {
   
     const allTickets = await Ticket.find()
     
-    const fraudPercentage = calculateFraud(ticket, comments, allTickets)
-    console.log("what does calculateFraud(ticket) return???", calculateFraud(ticket, comments, allTickets))
+    const fraudPercentage = calculateFraud(ticket, comments, allTickets, userTicketCount)
+    console.log("what does calculateFraud(ticket) return???", calculateFraud(ticket, comments, allTickets, userTicketCount))
 
 
     // Run through the comments, check for matches with TiketID
