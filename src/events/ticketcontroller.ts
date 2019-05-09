@@ -63,9 +63,9 @@ export default class TicketController {
 
   // CREATE TICKET
   @Authorized()
-  @Post('events/tickets')
+  @Post('events/:id/tickets')
   @HttpCode(201)
-  async createGame(
+  async createTicket(
     @Body() ticket: Ticket
   ) {
     await Ticket.create().save()
@@ -77,16 +77,15 @@ export default class TicketController {
 
     return ticket  
   }
-}
 
   // UPDATE TICKET BY ID
-  // @Put('/tickets/:id')
-  // async updateTicket(
-  // @Param('id') id: any,
-  // @Body() update: Partial<TicketList>
-  // ) {
-  // const ticket = await Ticket.findOne(id)
-  // if (!ticket) throw new BadRequestError('Ticket does not exist')
-
-  // return Ticket.merge(ticket, update).save()
-  // }
+  @Put('events/:id/tickets/:ticketid')
+  async updateTicket(
+  @Param('ticketid') ticketid: any,
+  @Body() update: Partial<Ticket>
+  ) {
+  const ticket = await Ticket.findOne(ticketid)
+  if (!ticket) throw new BadRequestError('Ticket does not exist')
+  return Ticket.merge(ticket, update).save()
+  }
+}
