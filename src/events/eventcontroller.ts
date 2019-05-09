@@ -53,28 +53,19 @@ export default class EventController {
   @Post('/events')
   @HttpCode(201)
   async createEvent(
-    @CurrentUser() user: User, 
-    @Body() event: Event
+    @Body() data: Event
   ): Promise<Event> {
-    console.log("incoming eventcreated")
-    if (!event) throw new Notification('Cannot find event')
-    await Event.create().save()
-    
+    console.log("incoming eventcreated", data)
+    const entity = await Event.create(data).save()
+    const newEvent = await Event.findOneById(entity.eventId)
+
     io.emit('action', {
       type: 'ADD_EVENT',
-      payload: event
+      payload: newEvent
     })
-    return event  
+    return newEvent!  
   }
 }
-
-
-
-
-
-
-
-
 
 
 // OLD VERSION OF POST

@@ -1,6 +1,6 @@
 import { 
   JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, Put, Body, Patch} from 'routing-controllers'
-// import User from '../users/entity'
+// import User from '../users/ennpmtity'
 import { Ticket, Comment } from './entities'
 // import User from '../users/entity'
 import {calculateFraud} from './algorithm'
