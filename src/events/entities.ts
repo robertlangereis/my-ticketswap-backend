@@ -47,9 +47,6 @@ export class Ticket extends BaseEntity {
 
   @PrimaryGeneratedColumn()
   ticketId?: number
-  
-  @Column('text', { name: 'eventName' })
-  eventName: string
 
   @IsString()
   @Column({nullable: true})
