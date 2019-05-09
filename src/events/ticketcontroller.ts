@@ -1,7 +1,8 @@
 import { 
   JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, Put, Body, Patch} from 'routing-controllers'
 // import User from '../users/entity'
-import { Ticket } from './entities'
+import { Ticket, Comment } from './entities'
+// import User from '../users/entity'
 import {calculateFraud} from './algorithm'
 import {io} from '../index'
 
@@ -23,15 +24,40 @@ export default class TicketController {
   // }
 
   // GET TICKET BY ID
-  @Get('/events/:eventId/tickets/:id')
-  async getTicket(@Param('id') id: number): Promise<Ticket> {
+  @Get('/events/:id/tickets/:ticketid')
+  async getTicket(@Param('ticketid') ticketid: number): Promise<Ticket> {
     // console.log("what is the id for @GET", id)
-    const ticket = await Ticket.findOneById(id)
+    const ticket = await Ticket.findOneById(ticketid)
     if (!ticket) throw new NotFoundError('Cannot find ticket')
-    const fraudPercentage = calculateFraud(ticket)
-    console.log("what does calculateFraud(ticket) return???", calculateFraud(ticket))
+    const comments = await Comment.count({where: { ticket: ticketid }})
+    // console.log("commentsId???", comments)
+    const authorId = await Ticket.find({where: { ticketId: ticketid }, relations: ["user"] })
+    const authorIdNum = authorId.map(ticket => ticket.user.userId)[0]
+    const userTicketCount = await Ticket.count({where: { user: authorIdNum }})
+    const allTickets = await Ticket.find()
+    const fraudPercentage = calculateFraud(ticket, comments, allTickets, userTicketCount)
+    // console.log("ISTHIS 3333???!!!", userTicketCount)
+    // console.log("authorId 222 ???", authorIdNum)
+    
+    // const ticketnumber = ticket.ticketId
+    // console.log(ticketnumber, "ticketId nummer")
+    
+    // console.log("what does calculateFraud(ticket) return???", calculateFraud(ticket, comments, allTickets, userTicketCount))
+    // ticket && console.log(comments, "benieuwd")  
+  
     if(ticket){ticket.fraudpercentage=fraudPercentage}
-    ticket.save()
+    // comments.map(comment => comment.ticketId === ticket.id)
+    // comments && calculateCommentsFraud(comments, ticket)
+  // comments returns an array of objects, so it can be mapped
+      
+  // Run through all tickets, check for the average price. Adjust risk accordingly
+      // const tickets = await Ticket.find()
+  // tickets returns an array of objects, so it can be mapped
+    //
+    // const events = await Event.find()
+    // console.log("ticketidentification 3.0", ticket)
+    ticket && await ticket.save()
+    // ticket.save()
     return ticket
   }
 
