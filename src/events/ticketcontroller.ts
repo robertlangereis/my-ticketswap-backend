@@ -66,29 +66,30 @@ export default class TicketController {
   @Post('events/:eventId/tickets')
   @HttpCode(201)
   async createTicket(
-    @Param('eventId') eventId: number,
+    @Param('eventId') eventId: any,
     @Body() ticket: Ticket,
-    @CurrentUser() user: User
-  ): Promise<Ticket> {
+    // @CurrentUser() user: User
+  ) {
+    console.log("incoming. Ticket data is:", ticket)
     const event = await Event.findOneById(eventId)
     if (!event) throw new NotFoundError('Cannot find event')
-    // console.log("incoming. Ticket data is:", ticket)
-    const {price, ticketDescription, imageUrl, dateAdded} = ticket
-    const entity = await Ticket.create({
-      price, 
-      ticketDescription, 
-      imageUrl, 
-      dateAdded,
-      user,
-      event
-    }).save()
-    console.log("incoming entity is:", entity)
-    const newTicket = await Ticket.findOneById(entity.ticketId)
-    io.emit('action', {
-      type: 'ADD_TICKET',
-      payload: newTicket
-    })
-    return newTicket  
+    // const {price, ticketDescription, imageUrl, dateAdded} = ticket
+    const {price} = ticket
+    // const entity = await Ticket.create({
+    //   price, 
+    //   ticketDescription, 
+    //   imageUrl, 
+    //   user,
+    //   event
+    // }).save()
+    // console.log("incoming entity is:", entity)
+    // const newTicket = await Ticket.findOneById(entity.ticketId)
+    // io.emit('action', {
+    //   type: 'ADD_TICKET',
+    //   payload: newTicket
+    // })
+    // return newTicket!
+    return console.log(price)
   }
 
 
