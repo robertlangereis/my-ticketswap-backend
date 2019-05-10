@@ -59,17 +59,17 @@ export default class EventController {
     return newEvent!  
     // if(newEvent) return newEvent.save()
   }
-}
-
+  
   // UPDATE EVENT BY ID
-  // @Authorized()
-  // @Put('/events/:id')
-  // async updateEvent(
-  // @Param('id') id: any,
-  // @Body() update: Partial<EventList>
-  // ) {
-  // const event = await Event.findOne(id)
-  // if (!event) throw new BadRequestError('Event does not exist')
-
-  // return Event.merge(event, update).save()
-  // }
+  @Authorized()
+  @Patch('/events/:id')
+  async updateEvent(
+    @Param('id') eventId: any,
+    @Body() update: Partial<Event>,
+    ) {
+      const event = await Event.findOne(eventId)
+      if (!event) throw new BadRequestError('Event does not exist')
+      
+      return Event.merge(event, update).save()
+    }
+  }
