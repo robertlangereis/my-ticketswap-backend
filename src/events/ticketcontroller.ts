@@ -1,7 +1,7 @@
 import { 
   JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, Put, Body, Patch} from 'routing-controllers'
 // import User from '../users/ennpmtity'
-import { Ticket, Comment } from './entities'
+import { Ticket, Comment, Event } from './entities'
 import User from '../users/entity'
 import {calculateFraud} from './algorithm'
 import {io} from '../index'
@@ -63,12 +63,15 @@ export default class TicketController {
 
   // CREATE TICKET
   @Authorized()
-  @Post('events/:id/tickets')
+  @Post('events/:eventId/tickets')
   @HttpCode(201)
   async createTicket(
+    @Param('eventId') eventId: number,
     @Body() ticket: Ticket,
     @CurrentUser() user: User
-  ) {
+  ): Promise<Ticket> {
+    const event = await Event.findOneById(eventId)
+    if (!event) throw new NotFoundError('Cannot find event')
     // console.log("incoming. Ticket data is:", ticket)
     const {price, ticketDescription, imageUrl, dateAdded} = ticket
     const entity = await Ticket.create({
@@ -76,7 +79,8 @@ export default class TicketController {
       ticketDescription, 
       imageUrl, 
       dateAdded,
-      user
+      user,
+      event
     }).save()
     console.log("incoming entity is:", entity)
     const newTicket = await Ticket.findOneById(entity.ticketId)

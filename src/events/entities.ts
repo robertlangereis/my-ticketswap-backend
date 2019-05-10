@@ -69,7 +69,7 @@ export class Ticket extends BaseEntity {
   timeAdded: string;
 
   @IsDate()
-  @Column()
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
   dateAdded: string
 
   @OneToMany(_ => Comment, comment => comment.ticket, {

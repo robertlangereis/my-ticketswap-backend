@@ -1,14 +1,11 @@
 import { 
   JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, Put, Body, Patch} from 'routing-controllers'
 import User from '../users/entity'
-import { Event, Ticket, Comment } from './entities'
-import {calculateFraud, calculateCommentsFraud} from './algorithm'
+import { Event } from './entities'
 import {io} from '../index'
 
 type EventList = Event[]
 
-// this makes sure a class is marked as controller that always returns JSON
-// perfect for our REST API
 @JsonController()
 export default class EventController {
   
@@ -49,7 +46,7 @@ export default class EventController {
   }
 
   // CREATE EVENT
-  @Authorized()
+  // @Authorized()
   @Post('/events')
   @HttpCode(201)
   async createEvent(
@@ -71,12 +68,12 @@ export default class EventController {
     console.log("incoming entity", entity)
     const newEvent = await Event.findOneById(entity.eventId)
 
-    // io.emit('action', {
-      // type: 'ADD_EVENT',
-      // payload: newEvent
-    // })
-    // return newEvent!  
-    if(newEvent) return newEvent.save()
+    io.emit('action', {
+      type: 'ADD_EVENT',
+      payload: newEvent
+    })
+    return newEvent!  
+    // if(newEvent) return newEvent.save()
   }
 }
 
