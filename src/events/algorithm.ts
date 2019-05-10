@@ -61,7 +61,7 @@ export const calculateFraud = (ticket: Ticket, comments: number, allTickets:Tick
     }
   }
   if(ticket){
-    if (fraudrisk < 0) {
+    if (fraudrisk < 5) {
       fraudrisk = 5
     }
   }
