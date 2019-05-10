@@ -53,17 +53,30 @@ export default class EventController {
   @Post('/events')
   @HttpCode(201)
   async createEvent(
-    @Body() data: Event
-  ): Promise<Event> {
-    console.log("incoming eventcreated", data)
-    const entity = await Event.create(data).save()
+    @Body() data: Event,
+    @CurrentUser() user: User
+    ){
+      const {eventName, eventDescription, image_url, start_date, end_date } = data
+      console.log("incoming eventcreated", data)
+  // : Promise<Event> {
+    console.log("incoming eventcreated")
+    const entity = await Event.create({
+      eventName, 
+      eventDescription, 
+      image_url, 
+      start_date,
+      end_date,
+      user
+    }).save()
+    console.log("incoming entity", entity)
     const newEvent = await Event.findOneById(entity.eventId)
 
-    io.emit('action', {
-      type: 'ADD_EVENT',
-      payload: newEvent
-    })
-    return newEvent!  
+    // io.emit('action', {
+      // type: 'ADD_EVENT',
+      // payload: newEvent
+    // })
+    // return newEvent!  
+    if(newEvent) return newEvent.save()
   }
 }
 

@@ -2,7 +2,7 @@ import {
   JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, Put, Body, Patch} from 'routing-controllers'
 // import User from '../users/ennpmtity'
 import { Ticket, Comment } from './entities'
-// import User from '../users/entity'
+import User from '../users/entity'
 import {calculateFraud} from './algorithm'
 import {io} from '../index'
 
@@ -66,17 +66,27 @@ export default class TicketController {
   @Post('events/:id/tickets')
   @HttpCode(201)
   async createTicket(
-    @Body() ticket: Ticket
+    @Body() ticket: Ticket,
+    @CurrentUser() user: User
   ) {
-    await Ticket.create().save()
-    
+    // console.log("incoming. Ticket data is:", ticket)
+    const {price, ticketDescription, imageUrl, dateAdded} = ticket
+    const entity = await Ticket.create({
+      price, 
+      ticketDescription, 
+      imageUrl, 
+      dateAdded,
+      user
+    }).save()
+    console.log("incoming entity is:", entity)
+    const newTicket = await Ticket.findOneById(entity.ticketId)
     io.emit('action', {
       type: 'ADD_TICKET',
-      payload: ticket
+      payload: newTicket
     })
-
-    return ticket  
+    return newTicket  
   }
+
 
   // UPDATE TICKET BY ID
   @Put('events/:id/tickets/:ticketid')

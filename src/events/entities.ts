@@ -10,7 +10,7 @@ export class Event extends BaseEntity {
   eventId?: number
   
   @IsString()
-  @MinLength(2)
+  @MinLength(1)
   @Column()
   eventName: string
 
