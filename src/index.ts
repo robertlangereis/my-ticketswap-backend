@@ -47,8 +47,8 @@ useKoaServer(app, {
       const [ , token ] = header.split(' ')
       
       if (token) {
-        const {id} = verify(token)
-        return User.findOneById(id)
+        const {userId} = verify(token)
+        return User.findOneById(userId)
       }
     }
     return undefined
