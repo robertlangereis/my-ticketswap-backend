@@ -10,12 +10,10 @@ type EventList = Event[]
 export default class EventController {
   
   // GET ALL EVENTS
-  // @Authorized()
   @Get('/events')
   async allEvents(): Promise<EventList> {
     const events = await Event.find()
-    // if (!event) throw new NotFoundError('Cannot find event')
-    // console.log(events, "how do events lookyliky")
+    console.log("@GET EVENTS", events)
     return events
   }
 
@@ -32,32 +30,28 @@ export default class EventController {
   // CREATE EVENT
   @Authorized()
   @Post('/events')
-  // @HttpCode(201)
+  @HttpCode(201)
   async createEvent(
     @Body() data: Event,
-    // @CurrentUser() user: User
-    ){
-      const {eventName, eventDescription, image_url, start_date, end_date } = data
-      console.log("incoming eventcreated", data)
-  // : Promise<Event> {
-    console.log("incoming eventcreated")
+    @CurrentUser() user: User): Promise<Event> {
+      
+    const {eventName, eventDescription, image_url, start_date, end_date } = data
+    !await user.password
     const entity = await Event.create({
       eventName, 
       eventDescription, 
       image_url, 
       start_date,
       end_date,
-      // user
+      user
     }).save()
-    console.log("incoming entity", entity)
     const newEvent = await Event.findOneById(entity.eventId)
-
+    
     io.emit('action', {
       type: 'ADD_EVENT',
       payload: newEvent
     })
-    return newEvent!  
-    // if(newEvent) return newEvent.save()
+    return newEvent!
   }
   
   // UPDATE EVENT BY ID
@@ -65,11 +59,12 @@ export default class EventController {
   @Patch('/events/:id')
   async updateEvent(
     @Param('id') eventId: any,
-    @Body() update: Partial<Event>,
+    @CurrentUser() user: User,
+    @Body() update: Partial<Event>
     ) {
-      const event = await Event.findOne(eventId)
+      const event = await Event.findOneById(eventId)
       if (!event) throw new BadRequestError('Event does not exist')
-      
-      return Event.merge(event, update).save()
+      if (event.user === user) return Event.merge(event, update).save()
+      else throw new BadRequestError('You cannot edit this event, as you are not the owner of the event')
     }
   }

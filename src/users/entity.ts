@@ -47,7 +47,7 @@ export default class User extends BaseEntity {
   @OneToMany(_ => Comment, comment => comment.user, {eager: true}) 
   comments: Comment[]  
   
-  @OneToMany(_ => Event, event => event.user, {eager: true}) 
+  @OneToMany(_ => Event, event => event.user) 
   events: Event[]
   
 }
