@@ -13,7 +13,6 @@ export default class EventController {
   @Get('/events')
   async allEvents(): Promise<EventList> {
     const events = await Event.find()
-    console.log("@GET EVENTS", events)
     return events
   }
 

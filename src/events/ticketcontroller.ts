@@ -67,13 +67,16 @@ export default class TicketController {
 
 
   // UPDATE TICKET BY ID
+  @Authorized()
   @Put('/events/:id/tickets/:ticketid')
   async updateTicket(
   @Param('ticketid') ticketid: any,
+  @CurrentUser() user: User,
   @Body() update: Partial<Ticket>
   ) {
-  const ticket = await Ticket.findOne(ticketid)
+  const ticket = await Ticket.findOneById(ticketid)
   if (!ticket) throw new BadRequestError('Ticket does not exist')
-  return Ticket.merge(ticket, update).save()
+  if (ticket!.user === user) return Ticket.merge(ticket!, update).save()
+  else throw new BadRequestError('You cannot edit this ticket, as you are not the owner of the ticket')
   }
 }

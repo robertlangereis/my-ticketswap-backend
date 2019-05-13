@@ -45,7 +45,7 @@ export class Event extends BaseEntity {
 //ticket is unique to an event and unique to a user
 export class Ticket extends BaseEntity {
 
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'integer' })
   ticketId?: number
   
   @IsString()
@@ -63,12 +63,12 @@ export class Ticket extends BaseEntity {
   @Column({nullable: true, default: 5})
   fraudpercentage: number
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', nullable: true})
   timeAdded: string;
 
-  @IsDate()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
-  dateAdded: string
+  // // @IsDate()
+  // @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', nullable: true})
+  // dateAdded: string
 
   @OneToMany(_ => Comment, comment => comment.ticket, {
     cascadeUpdate: true
