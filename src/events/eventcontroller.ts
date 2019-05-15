@@ -65,7 +65,7 @@ export default class EventController {
       console.log(update, "update")
       console.log(event, "event")
       if (!event) throw new BadRequestError('Event does not exist')
-      if (event.user === user) return await Event.merge(event, update).save()
+      if (event.user.userId === user.userId) return await Event.merge(event, update).save()
       else throw new BadRequestError('You cannot edit this event, as you are not the owner of the event')
     }
   }

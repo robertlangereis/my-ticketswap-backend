@@ -75,9 +75,7 @@ export default class TicketController {
   @Body() update: Partial<Ticket>
   ) {
   const ticket = await Ticket.findOneById(ticketid)
-  console.log(ticket)
-  if (ticket!.user === user) return await Ticket.merge(ticket!, update).save()
   if (!ticket) throw new BadRequestError('Ticket does not exist')
-  return Ticket.merge(ticket!, update).save()
+  if (ticket!.user === user) return await Ticket.merge(ticket!, update).save()
   }
 }
