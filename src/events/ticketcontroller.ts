@@ -58,10 +58,10 @@ export default class TicketController {
     // console.log("incoming entity is:", entity)
     const newTicket = await Ticket.findOneById(entity.ticketId)
     
-    io.emit('action', {
-      type: 'ADD_TICKET',
-      payload: newTicket
-    })
+    // io.emit('action', {
+    //   type: 'ADD_TICKET',
+    //   payload: newTicket
+    // })
     return newTicket!
   }
 
@@ -76,7 +76,7 @@ export default class TicketController {
   ) {
   const ticket = await Ticket.findOneById(ticketid)
   console.log(ticket)
-  if (ticket!.user === user) return Ticket.merge(ticket!, update).save()
+  if (ticket!.user === user) return await Ticket.merge(ticket!, update).save()
   if (!ticket) throw new BadRequestError('Ticket does not exist')
   return Ticket.merge(ticket!, update).save()
   }

@@ -46,10 +46,10 @@ export default class EventController {
     }).save()
     const newEvent = await Event.findOneById(entity.eventId)
     
-    io.emit('action', {
-      type: 'ADD_EVENT',
-      payload: newEvent
-    })
+    // io.emit('action', {
+    //   type: 'ADD_EVENT',
+    //   payload: newEvent
+    // })
     return newEvent!
   }
   
@@ -62,8 +62,10 @@ export default class EventController {
     @Body() update: Partial<Event>
     ) {
       const event = await Event.findOneById(eventId)
+      console.log(update, "update")
+      console.log(event, "event")
       if (!event) throw new BadRequestError('Event does not exist')
-      if (event.user === user) return Event.merge(event, update).save()
+      if (event.user === user) return await Event.merge(event, update).save()
       else throw new BadRequestError('You cannot edit this event, as you are not the owner of the event')
     }
   }
