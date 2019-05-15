@@ -90,7 +90,7 @@ export class Comment extends BaseEntity {
   commentId?: number
 
   @IsString()
-  @Length(3, 300)
+  @Length(2, 300)
   @Column('text')
   text: string
 
@@ -100,5 +100,3 @@ export class Comment extends BaseEntity {
   @ManyToOne(_ => User, user => user.comments)
   user: User
 }
-
-

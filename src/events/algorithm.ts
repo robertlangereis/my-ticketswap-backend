@@ -8,10 +8,10 @@ export const calculateFraud = (ticket: Ticket, comments: number, allTickets:Tick
   const ticketTimeAdded = ticket.timeAdded.toString()
   const hrsString = ticketTimeAdded.split(' ')[4].split(':')[0]
   const hrs = parseInt(hrsString, 10)
-
   const avgPriceAllTickets = allTickets.reduce((a,b) => a + b.price, 0) / allTickets.length
   const percPrice = (((avgPriceAllTickets - ticket.price) / ticket.price)*100).toFixed(0)
   const percPriceNum = Number(percPrice)
+
   
   if(ticket) fraudrisk = 5
   if (ticket){

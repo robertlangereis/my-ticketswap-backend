@@ -20,12 +20,12 @@ export default class TicketController {
     const ticket = await Ticket.findOneById(ticketid)
     if (!ticket) throw new NotFoundError('Cannot find ticket')
     const comments = await Comment.count({where: { ticket: ticketid }})
-    // console.log("commentsId???", comments)
     const authorId = await Ticket.find({where: { ticketId: ticketid }, relations: ["user"] })
     const authorIdNum = authorId.map(ticket => ticket.user.userId)[0]
     const userTicketCount = await Ticket.count({where: { user: authorIdNum }})
     const allTickets = await Ticket.find()
     const fraudPercentage = calculateFraud(ticket, comments, allTickets, userTicketCount)
+    console.log("fraudPercentage???", fraudPercentage)
     
     ticket.fraudpercentage = fraudPercentage
     await ticket.save()
@@ -68,15 +68,16 @@ export default class TicketController {
 
   // UPDATE TICKET BY ID
   @Authorized()
-  @Put('/events/:id/tickets/:ticketid')
+  @Patch('/events/:id/tickets/:ticketid')
   async updateTicket(
   @Param('ticketid') ticketid: any,
   @CurrentUser() user: User,
   @Body() update: Partial<Ticket>
   ) {
   const ticket = await Ticket.findOneById(ticketid)
-  if (!ticket) throw new BadRequestError('Ticket does not exist')
+  console.log(ticket)
   if (ticket!.user === user) return Ticket.merge(ticket!, update).save()
-  else throw new BadRequestError('You cannot edit this ticket, as you are not the owner of the ticket')
+  if (!ticket) throw new BadRequestError('Ticket does not exist')
+  return Ticket.merge(ticket!, update).save()
   }
 }
