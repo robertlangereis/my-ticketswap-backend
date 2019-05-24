@@ -1,6 +1,6 @@
 # TicketSwap rebuild - Robert Langereis
 
-This is a server for the replica rebuilt, by Robert Langereis, as a final assignment for the Codaisseur Academy. 
+This is the backend (REST API) for a Ticketswap lookalike (main functionality), by Robert Langereis, as a final assignment for the Codaisseur Academy. 
 
 It has these endpoints:
 
@@ -17,3 +17,4 @@ It has these endpoints:
 * You need a working Postgres database that is preferrably empty (drop all the tables) and running 
 * Install the dependencies using `npm install`
 * `npm run dev`
+* This backend requires a frontend that can be found here: https://github.com/robertlangereis/my-ticketswap-frontend
