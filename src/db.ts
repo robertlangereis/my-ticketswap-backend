@@ -34,7 +34,7 @@ export default () =>
       Ticket,
       Comment
     ],
-    // synchronize: true, // careful with this in production!
+    synchronize: true, // careful with this in production!
     logging: true,
     namingStrategy: new CustomNamingStrategy()
   })

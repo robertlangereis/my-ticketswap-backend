@@ -23,11 +23,11 @@ export class Event extends BaseEntity {
   @Column()
   image_url: string
 
-  @IsDate()
+  @IsString()
   @Column()
   start_date: string
 
-  @IsDate()
+  @IsString()
   @Column()
   end_date: string
 
@@ -36,7 +36,7 @@ export class Event extends BaseEntity {
   @OneToMany(_ => Ticket, ticket => ticket.event, {eager: true})
   tickets: Ticket[]
   
-  @ManyToOne(_ => User, user => user.events)
+  @ManyToOne(_ => User, user => user.events, {eager: true})
   user: User
 }
 
@@ -45,7 +45,7 @@ export class Event extends BaseEntity {
 //ticket is unique to an event and unique to a user
 export class Ticket extends BaseEntity {
 
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'integer' })
   ticketId?: number
   
   @IsString()
@@ -60,20 +60,17 @@ export class Ticket extends BaseEntity {
   @Column()
   ticketDescription: string
 
-  // implementation of game-logic. But, instead of game-logic we have the calculation of the alogorithm. So, using the game-logic as a base to calculate the fraud percentage?....
-  @Column({nullable: true})
+  @Column({nullable: true, default: 5})
   fraudpercentage: number
 
-  //sketchy, weet niet of dit werkt maar zou wel makkelijk zijn: https://github.com/typeorm/typeorm/issues/877
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', nullable: true})
   timeAdded: string;
 
-  @IsDate()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
-  dateAdded: string
+  // // @IsDate()
+  // @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', nullable: true})
+  // dateAdded: string
 
   @OneToMany(_ => Comment, comment => comment.ticket, {
-    // eager: true, 
     cascadeUpdate: true
   })
   comments: Comment[]
@@ -93,7 +90,7 @@ export class Comment extends BaseEntity {
   commentId?: number
 
   @IsString()
-  @Length(3, 300)
+  @Length(2, 300)
   @Column('text')
   text: string
 
@@ -103,5 +100,3 @@ export class Comment extends BaseEntity {
   @ManyToOne(_ => User, user => user.comments)
   user: User
 }
-
-
