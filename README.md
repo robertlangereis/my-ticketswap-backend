@@ -3,8 +3,7 @@
 *NOTE THIS PROJECT IS STILL IN DEVELOPMENT*
 
 This is the backend (REST API) for a Ticketswap lookalike (main functionality), by Robert Langereis, as a final (individual) assignment for the Codaisseur Academy. We had 5 days to finish this final assignment. For this REST API I used the following dev tech:
-- Postgres & Sequelize 
-- Koa (instead of express) & TypeORM
+- Postgres, TypeORM & Koa (instead of express)
 
 # Checkout the deployed (client) side of this webapp: https://condescending-perlman-1c4647.netlify.com
 # --> This is the corresponding frontend webapp for this backend API. The GIT repository for this  project can be found here: https://github.com/robertlangereis/my-ticketswap-frontend 
