@@ -39,8 +39,6 @@ export default class User extends BaseEntity {
     return bcrypt.compare(rawPassword, this.password)
   }
 
-  // this is a relation, read more about them here:
-  // http://typeorm.io/#/many-to-one-one-to-many-relations
   @OneToMany(_ => Ticket, ticket => ticket.user, {eager: true}) 
   tickets: Ticket[]
   
