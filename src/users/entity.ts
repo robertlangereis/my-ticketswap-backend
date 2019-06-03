@@ -25,7 +25,7 @@ export default class User extends BaseEntity {
   email: string
 
   @IsString()
-  @MinLength(8)
+  @MinLength(3)
   @Column('text')
   @Exclude({ toPlainOnly: true })
   password: string
@@ -39,12 +39,10 @@ export default class User extends BaseEntity {
     return bcrypt.compare(rawPassword, this.password)
   }
 
-  // this is a relation, read more about them here:
-  // http://typeorm.io/#/many-to-one-one-to-many-relations
-  @OneToMany(_ => Ticket, ticket => ticket.user) 
+  @OneToMany(_ => Ticket, ticket => ticket.user, {eager: true}) 
   tickets: Ticket[]
   
-  @OneToMany(_ => Comment, comment => comment.user) 
+  @OneToMany(_ => Comment, comment => comment.user, {eager: true}) 
   comments: Comment[]  
   
   @OneToMany(_ => Event, event => event.user) 

@@ -1,5 +1,5 @@
 {
-  "name": "game-starter-b15-server",
+  "name": "ticketswap-server",
   "version": "1.0.0",
   "engine": "11",
   "main": "target/index.js",
@@ -9,7 +9,8 @@
     "dev": "nodemon .",
     "test": "node_modules/.bin/mocha --require ts-node/register src/**/*.spec.ts",
     "watch": "node_modules/.bin/tsc -w",
-    "compile": "node_modules/.bin/tsc -p ."
+    "compile": "node_modules/.bin/tsc -p .",
+    "postinstall": "tsc -p ."
   },
   "dependencies": {
     "@types/bcrypt": "^1.0.0",

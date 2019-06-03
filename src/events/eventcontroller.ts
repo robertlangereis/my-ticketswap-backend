@@ -1,60 +1,69 @@
-import { 
-  JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, Put, Body, Patch} from 'routing-controllers'
-import User from '../users/entity'
-import { Event } from './entities'
-// import {calculateWinner, generateRandomCard, calculatePoints} from './logic'
-import {io} from '../index'
+import {JsonController,  Authorized,  CurrentUser,  Post,  Param,  BadRequestError,  HttpCode,  NotFoundError, Get, Body, Patch,} from "routing-controllers";
+import User from "../users/entity";
+import { Event } from "./entities";
 
-type EventList = Event[]
+type EventList = Event[];
 
-// this makes sure a class is marked as controller that always returns JSON
-// perfect for our REST API
 @JsonController()
 export default class EventController {
-  
   // GET ALL EVENTS
-  @Get('/events')
+  @Get("/events")
   async allEvents(): Promise<EventList> {
-    const events = await Event.find()
-    // console.log(events)
-    return events
+    const events = await Event.find();
+    return events;
   }
 
   // GET EVENT BY ID
-  @Get('/events/:id')
-  async getEvent(@Param('id') id: any): Promise<Event> {
-    const event = await Event.findOneById(id)
-    if (!event) throw new NotFoundError('Cannot find event')
-    // console.log(event)
-    return event
+  @Get("/events/:id")
+  async getEvent(@Param("id") id: any): Promise<Event> {
+    const event = await Event.findOneById(id);
+    if (!event) throw new NotFoundError("Cannot find event");
+    return event;
   }
 
   // CREATE EVENT
   @Authorized()
-  @Post('/events')
+  @Post("/events")
   @HttpCode(201)
-  async createGame(
-    @Body() event: Event
-  ) {
-    await Event.create().save()
-    
-    io.emit('action', {
-      type: 'ADD_EVENT',
-      payload: event
-    })
-
-    return event  
+  async createEvent(
+    @Body() data: Event,
+    @CurrentUser() user: User
+  ): Promise<Event> {
+    const {
+      eventName,
+      eventDescription,
+      image_url,
+      start_date,
+      end_date,
+    } = data;
+    !(await user.password);
+    const entity = await Event.create({
+      eventName,
+      eventDescription,
+      image_url,
+      start_date,
+      end_date,
+      user,
+    }).save();
+    const newEvent = await Event.findOneById(entity.eventId);
+    return newEvent!;
   }
-}
 
   // UPDATE EVENT BY ID
-  // @Put('/events/:id')
-  // async updateEvent(
-  // @Param('id') id: any,
-  // @Body() update: Partial<EventList>
-  // ) {
-  // const event = await Event.findOne(id)
-  // if (!event) throw new BadRequestError('Event does not exist')
-
-  // return Event.merge(event, update).save()
-  // }
+  @Authorized()
+  @Patch("/events/:id")
+  async updateEvent(
+    @Param("id") eventId: any,
+    @CurrentUser() user: User,
+    @Body() update: Partial<Event>
+  ) {
+    const event = await Event.findOneById(eventId);
+    if (!event) throw new BadRequestError("Event does not exist");
+    if (event.user.userId === user.userId)
+      return await Event.merge(event, update).save();
+    else
+      throw new BadRequestError(
+        "You cannot edit this event, as you are not the owner of the event"
+      );
+  }
+}
