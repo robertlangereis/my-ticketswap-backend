@@ -1,8 +1,9 @@
 # TicketSwap rebuild - Robert Langereis
 
 *NOTE THIS PROJECT IS STILL IN DEVELOPMENT*
+*We had 5 days to finish this final assignment, building both the backend and frontend (to be found here: https://github.com/robertlangereis/my-ticketswap-frontend)*
 
-This is the backend (REST API) for a Ticketswap lookalike (main functionality), by Robert Langereis, as a final (individual) assignment for the Codaisseur Academy. We had 5 days to finish this final assignment. For this REST API I used the following dev tech:
+This is the backend (REST API) for a Ticketswap lookalike (main functionality), by Robert Langereis, as a final (individual) assignment for the Codaisseur Academy. For this REST API I used the following dev tech:
 - Postgres, TypeORM & Koa (instead of express)
 
 ## Instal & Running the REST API yourself
