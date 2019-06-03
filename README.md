@@ -6,9 +6,9 @@ This is the backend (REST API) for a Ticketswap lookalike (main functionality), 
 - Postgres, TypeORM & Koa (instead of express)
 
 # Checkout the deployed (client) side of this webapp: https://condescending-perlman-1c4647.netlify.com
-# --> This is the corresponding frontend webapp for this backend API. The GIT repository for this  project can be found here: https://github.com/robertlangereis/my-ticketswap-frontend 
+--> This is the corresponding frontend webapp for this backend API. The GIT repository for this  project can be found here: https://github.com/robertlangereis/my-ticketswap-frontend 
 
-# This REST API is deployed using heroku, on heroku: https://dashboard.heroku.com/apps/ticketswap-api-langereis 
+* This REST API is deployed using heroku, on heroku: https://dashboard.heroku.com/apps/ticketswap-api-langereis 
 
 ## Instal & Running the REST API yourself
 * You need a working Postgres database that is preferrably empty (drop all the tables) and running 
