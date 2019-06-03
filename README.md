@@ -5,8 +5,6 @@
 This is the backend (REST API) for a Ticketswap lookalike (main functionality), by Robert Langereis, as a final (individual) assignment for the Codaisseur Academy. We had 5 days to finish this final assignment. For this REST API I used the following dev tech:
 - Postgres, TypeORM & Koa (instead of express)
 
-# --> This is the corresponding frontend webapp for this backend API. The GIT repository for this  project can be found here: https://github.com/robertlangereis/my-ticketswap-frontend 
-
 ## Instal & Running the REST API yourself
 * You need a working Postgres database that is preferrably empty (drop all the tables) and running 
 * Install the dependencies using `npm install`
